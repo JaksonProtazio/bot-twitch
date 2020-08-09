@@ -2,8 +2,6 @@ var express = require('express');
 
 const fs = require('fs');
 const tmi = require('tmi.js');
-const path = require('path');
-
 
 const NOME_DO_BOT = 'RsHBinaBOT';
 const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'binarush';
@@ -24,11 +22,9 @@ const opts = {
 // Cria um cliente tmi com  nossas opções
 const client = new tmi.client(opts);
 
-// Connecta na Twitch:
-client.connect();
-
 //intercepta mensagem do chat
 function mensagemChegou(alvo, contexto, mensagem, ehBot) {
+
     var rawdata = fs.readFileSync('dados.json');
 
     if (ehBot) {
@@ -62,12 +58,14 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
 
         if(nick_was_add){
             client.say(alvo, "/me "+nick+", você já estava na lista. Aguarde sua vez VoHiYo ");
+            contar();
         }else{
             nicks.nicks.push(new_nick);
 
             fs.writeFileSync('dados.json', JSON.stringify(nicks));
     
             client.say(alvo, "/me "+nick+", você foi adicionado na lista. Digite !lista para ver a lista de pessoas para jogar.");
+            contar();
         }
     } else if(nomeDoComando === '!lista'){
         var nicks = JSON.parse(rawdata);
@@ -88,8 +86,10 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
             }
             
             client.say(alvo, "/me LISTA PARA JOGAR: "+txt);
+            contar();
         }else{
             client.say(alvo, "/me A lista está vazia no momento. Digite !fila e venha jogar com a Bina! TwitchUnity");
+            contar();
         }
     
         
@@ -101,8 +101,10 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
             console.log(nicks);
             fs.writeFileSync('dados.json', JSON.stringify(nicks));
             client.say(alvo, "/me "+removido.user+"  foi removido da lista.");
+            contar();
         }else{
             client.say(alvo, "Você não tem autorização para esse comando.");
+            contar();
         }
         
     }else if(nomeDoComando === "!limparLista"){
@@ -119,16 +121,55 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
                 }
                 fs.writeFileSync('dados.json', JSON.stringify(nicks));
                 client.say(alvo, "A lista agora está vazia :)");
+                contar();
             }else{
                 client.say(alvo, "A lista já está vazia NotLikeThis "); 
+                contar();
             }
         }
     }
+}
+
+function listar(){
+    var rawdata = fs.readFileSync('dados.json');
+    var nicks = JSON.parse(rawdata);
+        var dados_arr = nicks.nicks.map(function(num) {    
+            return num.user;
+        });
+
+        if(dados_arr.length>0){
+            var txt = "";
+
+            for(i=0;i<dados_arr.length; i++){
+                if(i==0){
+                    txt = ' '+(i+1)+'º - '+dados_arr[i] + ' |';
+                }else{
+                    txt += ' '+(i+1)+'º - '+dados_arr[i] + ' |';
+                }
+                
+            }
+            
+            client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR, "/me LISTA PARA JOGAR: "+txt);
+            contar();
+        }else{
+            client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR, "/me A lista está vazia no momento. Digite !fila e venha jogar com a Bina! TwitchUnity");
+            contar();
+        }
+
+}
+
+function contar(){
+    setTimeout(function(){
+        listar();
+    },10000);
 }
   
 function entrouNoChatDaTwitch(endereco, porta) {
     console.log(`* Bot entrou no endereço ${endereco}:${porta}`);
 }
+
+// Connecta na Twitch:
+client.connect();
 
 // Registra nossas funções
 client.on('message', mensagemChegou);
