@@ -1,5 +1,3 @@
-console.log("Funcionou karalho!!!");
-
 var express = require('express');
 
 const fs = require('fs');
@@ -33,14 +31,12 @@ client.connect();
 function mensagemChegou(alvo, contexto, mensagem, ehBot) {
     var rawdata = fs.readFileSync('dados.json');
 
-    contexto.identity
-
     if (ehBot) {
         return; //se for mensagens do nosso bot ele não faz nada
     } 
     
-
     const nomeDoComando = mensagem.trim();
+    
     // checando o nosso comando
     if (nomeDoComando === '!fila') {
         var nicks = JSON.parse(rawdata);
