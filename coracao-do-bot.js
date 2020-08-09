@@ -5,6 +5,7 @@ const tmi = require('tmi.js');
 
 const NOME_DO_BOT = 'RsHBinaBOT';
 const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'binarush';
+/* const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'jaksonfives'; */
 const TOKEN = 'oauth:xvxe4385ydns5p1n6uq8os88a2e5ib';
 
 var app = express();
@@ -161,7 +162,7 @@ function listar(){
 function contar(){
     setTimeout(function(){
         listar();
-    },10000);
+    },900000);
 }
   
 function entrouNoChatDaTwitch(endereco, porta) {
