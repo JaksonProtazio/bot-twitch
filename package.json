@@ -1,0 +1,15 @@
+{
+  "name": "bot-twitch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "coracao-do-bot.js",
+  "scripts": {
+    "start": "node coracao-do-bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.5.0"
+  }
+}
