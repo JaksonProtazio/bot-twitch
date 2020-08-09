@@ -1,5 +1,7 @@
 console.log("Funcionou karalho!!!");
 
+var express = require('express');
+
 const fs = require('fs');
 const tmi = require('tmi.js');
 const path = require('path');
@@ -9,7 +11,9 @@ const NOME_DO_BOT = 'RsHBinaBOT';
 const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'binarush';
 const TOKEN = 'oauth:xvxe4385ydns5p1n6uq8os88a2e5ib';
 
-let rawdata = fs.readFileSync('dados.json');
+var app = express();
+
+app.listen(process.env.PORT || 5000);
 
 const opts = {
     identity: {
