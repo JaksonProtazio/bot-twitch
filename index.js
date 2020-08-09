@@ -28,9 +28,9 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
 
     var rawdata = fs.readFileSync('dados.json');
 
-    if (ehBot) {
+    /* if (ehBot) {
         return; //se for mensagens do nosso bot ele não faz nada
-    } 
+    }  */
     
     const nomeDoComando = mensagem.trim();
     
@@ -132,31 +132,7 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
 }
 
 function listar(){
-    var rawdata = fs.readFileSync('dados.json');
-    var nicks = JSON.parse(rawdata);
-        var dados_arr = nicks.nicks.map(function(num) {    
-            return num.user;
-        });
-
-        if(dados_arr.length>0){
-            var txt = "";
-
-            for(i=0;i<dados_arr.length; i++){
-                if(i==0){
-                    txt = ' '+(i+1)+'º - '+dados_arr[i] + ' |';
-                }else{
-                    txt += ' '+(i+1)+'º - '+dados_arr[i] + ' |';
-                }
-                
-            }
-            
-            client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR, "/me LISTA PARA JOGAR: "+txt);
-            contar();
-        }else{
-            client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR, "/me A lista está vazia no momento. Digite !fila e venha jogar com a Bina! TwitchUnity");
-            contar();
-        }
-
+    client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR,"!lista");
 }
 
 function contar(){
