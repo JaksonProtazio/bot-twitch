@@ -4,7 +4,7 @@
   "description": "",
   "main": "coracao-do-bot.js",
   "scripts": {
-    "start": "node coracao-do-bot.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
