@@ -6,11 +6,12 @@ const tmi = require('tmi.js');
 const NOME_DO_BOT = 'RsHBinaBOT';
 const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'binarush';
 /* const NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR = 'jaksonfives'; */
-const TOKEN = 'oauth:xvxe4385ydns5p1n6uq8os88a2e5ib';
+const TOKEN = 'oauth:bdfek0zpzgyxucsjp4td2ff3txqpj1';
 
-var app = express();
 
-app.listen(process.env.PORT || 5000);
+/* var app = express();
+
+app.listen(process.env.PORT || 5000); */
 
 const opts = {
     identity: {
@@ -28,9 +29,9 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
 
     var rawdata = fs.readFileSync('dados.json');
 
-    /* if (ehBot) {
+    if (ehBot) {
         return; //se for mensagens do nosso bot ele não faz nada
-    }  */
+    } 
     
     const nomeDoComando = mensagem.trim();
     
@@ -59,14 +60,12 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
 
         if(nick_was_add){
             client.say(alvo, "/me "+nick+", você já estava na lista. Aguarde sua vez VoHiYo ");
-            contar();
         }else{
             nicks.nicks.push(new_nick);
 
             fs.writeFileSync('dados.json', JSON.stringify(nicks));
     
             client.say(alvo, "/me "+nick+", você foi adicionado na lista. Digite !lista para ver a lista de pessoas para jogar.");
-            contar();
         }
     } else if(nomeDoComando === '!lista'){
         var nicks = JSON.parse(rawdata);
@@ -87,10 +86,8 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
             }
             
             client.say(alvo, "/me LISTA PARA JOGAR: "+txt);
-            contar();
         }else{
             client.say(alvo, "/me A lista está vazia no momento. Digite !fila e venha jogar com a Bina! TwitchUnity");
-            contar();
         }
     
         
@@ -102,10 +99,8 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
             console.log(nicks);
             fs.writeFileSync('dados.json', JSON.stringify(nicks));
             client.say(alvo, "/me "+removido.user+"  foi removido da lista.");
-            contar();
         }else{
             client.say(alvo, "Você não tem autorização para esse comando.");
-            contar();
         }
         
     }else if(nomeDoComando === "!limparLista"){
@@ -122,23 +117,11 @@ function mensagemChegou(alvo, contexto, mensagem, ehBot) {
                 }
                 fs.writeFileSync('dados.json', JSON.stringify(nicks));
                 client.say(alvo, "A lista agora está vazia :)");
-                contar();
             }else{
                 client.say(alvo, "A lista já está vazia NotLikeThis "); 
-                contar();
             }
         }
     }
-}
-
-function listar(){
-    client.say(NOME_DO_CANAL_QUE_O_BOT_VAI_FICAR,"!lista");
-}
-
-function contar(){
-    setTimeout(function(){
-        listar();
-    },900000);
 }
   
 function entrouNoChatDaTwitch(endereco, porta) {
